@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  db:
+    build: ./docker/mysql
+    image: mysql:5.7
+    container_name: spring-boot-sample-db
+    restart: always
+    environment:
+      MYSQL_USER: spring-boot-sample
+      MYSQL_PASSWORD: 4jiM22Ijnunt
+      MYSQL_ROOT_PASSWORD: 4jiM22Ijnunt
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3316:3306"
+    volumes:
+      - ./docker/lib/mysql:/var/lib/mysql
+      - ./docker/log/mysql:/var/log/mysql
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+  dev:
+    image: openjdk:15
+    container_name: spring-boot-sample-dev
+    working_dir: /app
+    volumes:
+      - ./project:/app
+    ports:
+      - 8090:8080
+    tty: true
+    depends_on:
+      - db
+  dbclient:
+    image: phpmyadmin/phpmyadmin
+    container_name: spring-boot-sample-dbclient
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=spring-boot-sample
+      - PMA_PASSWORD=4jiM22Ijnunt
+    links:
+      - db
+    ports:
+      - 4200:80
+    volumes:
+      - ./docker/dbclient/sessions:/sessions
+    depends_on:
+      - db

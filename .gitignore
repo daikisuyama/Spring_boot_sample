@@ -1,0 +1,3 @@
+.DS_Store
+docker/log/mysql
+docker/lib/mysql

@@ -1,0 +1,9 @@
+{
+    "name": "spring-boot-sample-dev",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "dev",
+    "workspaceFolder": "/app",
+    "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+    }
+  }
